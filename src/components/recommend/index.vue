@@ -12,7 +12,17 @@
        </div>
       <div class="recommend-list">
         <h1 class="list-title">热门歌单推荐</h1>
-        <ul></ul>
+        <ul>
+          <li v-for="item in discList" :key="item.dissid" class="item">
+            <div class="icon">
+              <img width="60" height="60" :src="item.imgurl" alt="">
+            </div>
+            <div class="text">
+              <h2 class="name">{{item.dissname}}</h2>
+              <p class="desc">{{item.introduction || item.creator.name}}</p>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -33,7 +43,8 @@ export default {
   },
   data() {
     return {
-      recommends: []
+      recommends: [],
+      discList: []
     };
   },
   methods: {
@@ -46,6 +57,7 @@ export default {
     },
     _getDiscList() {
       this.axios.get('https://v1.itooi.cn/tencent/songList/hot').then(res => {
+        this.discList = res.data.data.list
         console.log(res.data);
       })
     }
